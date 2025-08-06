@@ -6,9 +6,9 @@ use App\Http\Controllers\Api\AdminController;
 use Illuminate\Support\Facades\Route;
 
 // Public routes
-Route::get('/survey', [SurveyController::class, 'index'])->name('api.survey');
+Route::get('/survey', [SurveyController::class, 'index']);
 Route::post('/survey', [SurveyController::class, 'store']);
-Route::get('/responses/{token}', [ResponseController::class, 'show']);
+Route::get('/responses/{token}', [ResponseController::class, 'show'])->name('responses.show');
 Route::post('/admin/login', [AdminController::class, 'login']);
 
 // Protected routes

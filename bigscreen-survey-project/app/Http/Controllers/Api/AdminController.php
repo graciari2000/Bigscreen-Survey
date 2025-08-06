@@ -5,8 +5,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Question;
 use App\Models\Response;
 use App\Models\User;
+use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * Handles admin-related API endpoints, including authentication and dashboard data.
@@ -34,8 +36,9 @@ class AdminController extends Controller
             'password' => 'required|string',
         ]);
 
-        if (Auth::guard('admin')->attempt($credentials)) {
-            $admin = Auth::guard('admin')->user();
+        $admin = Admin::where('username', $credentials['username'])->first();
+        
+        if ($admin && Hash::check($credentials['password'], $admin->password)) {
             $token = $admin->createToken('admin-token', ['*'])->plainTextToken;
             return response()->json(['token' => $token], 200);
         }
