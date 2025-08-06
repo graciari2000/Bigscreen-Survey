@@ -19,15 +19,22 @@ const SurveyPage = () => {
     const [formData, setFormData] = useState({ email: '', responses: {} });
     const [message, setMessage] = useState('');
     const [responseUrl, setResponseUrl] = useState('');
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
+        setLoading(true);
         axios.get('/api/survey').then(response => {
             setQuestions(response.data);
             const initialResponses = response.data.reduce((acc, q) => ({
                 ...acc,
                 [q.id]: { answer: '' }
             }), {});
-            setFormData({ ...formData, responses: initialResponses });
+            setFormData(prev => ({ ...prev, responses: initialResponses }));
+        }).catch(error => {
+            console.error('Error loading questions:', error);
+            setMessage('Error loading survey questions');
+        }).finally(() => {
+            setLoading(false);
         });
     }, []);
 
@@ -45,15 +52,28 @@ const SurveyPage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setLoading(true);
         axios.post('/api/survey', formData)
             .then(response => {
                 setMessage(response.data.message);
                 setResponseUrl(response.data.response_url);
             })
             .catch(error => {
+                console.error('Error submitting survey:', error);
                 setMessage('Error submitting survey');
+            })
+            .finally(() => {
+                setLoading(false);
             });
     };
+
+    if (loading && questions.length === 0) {
+        return (
+            <div className="container mx-auto p-4">
+                <div className="text-center">Loading survey...</div>
+            </div>
+        );
+    }
 
     return (
         <div className="container mx-auto p-4">
@@ -123,7 +143,13 @@ const SurveyPage = () => {
                             )}
                         </div>
                     ))}
-                    <button onClick={handleSubmit} className="bg-blue-500 text-white p-2 rounded">Finalize</button>
+                    <button 
+                        onClick={handleSubmit} 
+                        disabled={loading}
+                        className="bg-blue-500 text-white p-2 rounded disabled:opacity-50"
+                    >
+                        {loading ? 'Submitting...' : 'Finalize'}
+                    </button>
                 </div>
             )}
         </div>
@@ -133,12 +159,38 @@ const SurveyPage = () => {
 const ResponsePage = () => {
     const { token } = useParams();
     const [data, setData] = useState({ user: null, questions: [] });
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
 
     useEffect(() => {
-        axios.get(`/api/responses/${token}`).then(response => {
-            setData(response.data);
-        });
+        axios.get(`/api/responses/${token}`)
+            .then(response => {
+                setData(response.data);
+            })
+            .catch(error => {
+                console.error('Error loading responses:', error);
+                setError('Error loading responses');
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     }, [token]);
+
+    if (loading) {
+        return (
+            <div className="container mx-auto p-4">
+                <div className="text-center">Loading responses...</div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="container mx-auto p-4">
+                <div className="text-center text-red-500">{error}</div>
+            </div>
+        );
+    }
 
     return (
         <div className="container mx-auto p-4">
@@ -158,6 +210,8 @@ const ResponsePage = () => {
 
 const AdminLogin = () => {
     const [credentials, setCredentials] = useState({ username: '', password: '' });
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
     const navigate = useNavigate();
 
     const handleInputChange = (e) => {
@@ -167,17 +221,30 @@ const AdminLogin = () => {
 
     const handleLogin = (e) => {
         e.preventDefault();
+        setLoading(true);
+        setError('');
         axios.post('/api/admin/login', credentials)
             .then(response => {
                 localStorage.setItem('adminToken', response.data.token);
                 navigate('/admin');
             })
-            .catch(() => alert('Invalid credentials'));
+            .catch(error => {
+                console.error('Login error:', error);
+                setError('Invalid credentials');
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     };
 
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold mb-4">Admin Login</h1>
+            {error && (
+                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                    {error}
+                </div>
+            )}
             <div className="space-y-4 max-w-md">
                 <div>
                     <label className="block font-medium">Username</label>
@@ -201,7 +268,13 @@ const AdminLogin = () => {
                         required
                     />
                 </div>
-                <button onClick={handleLogin} className="bg-blue-500 text-white p-2 rounded">Login</button>
+                <button 
+                    onClick={handleLogin} 
+                    disabled={loading}
+                    className="bg-blue-500 text-white p-2 rounded disabled:opacity-50"
+                >
+                    {loading ? 'Logging in...' : 'Login'}
+                </button>
             </div>
         </div>
     );
