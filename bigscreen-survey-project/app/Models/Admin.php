@@ -13,7 +13,7 @@ class Admin extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = ['username', 'password'];
+    protected $fillable = ['username', 'email', 'password'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -21,4 +21,13 @@ class Admin extends Authenticatable
      * @var array
      */
     protected $hidden = ['password'];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
 }

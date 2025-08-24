@@ -9,6 +9,7 @@ use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * Handles admin-related API endpoints, including authentication and dashboard data.
@@ -20,7 +21,42 @@ class AdminController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:sanctum')->except(['login']);
+        $this->middleware('auth:sanctum')->except(['login', 'register']);
+    }
+
+    /**
+     * Register a new admin user.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function register(Request $request)
+    {
+        // Validate the request
+        $validator = Validator::make($request->all(), [
+            'username' => 'required|string|unique:admins,username',
+            'email' => 'required|email|unique:admins,email',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'error' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        // Create the admin user
+        $admin = Admin::create([
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        return response()->json([
+            'message' => 'Admin registered successfully',
+            'admin' => $admin
+        ], 201);
     }
 
     /**

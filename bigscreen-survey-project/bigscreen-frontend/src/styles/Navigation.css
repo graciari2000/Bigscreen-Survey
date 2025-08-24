@@ -1,0 +1,29 @@
+.navbar {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: var(--primary);
+}
+
+.navbar-links {
+    display: flex;
+    gap: 20px;
+}
+
+.theme-toggle-container {
+    margin-right: 100%;
+    margin: 15px;
+    position: absolute;
+    top: 10px;
+    right: 0;
+}
+
+.navbar a {
+    color: var(--background);
+    text-decoration: none;
+    font-size: 18px;
+}
+

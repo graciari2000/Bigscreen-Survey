@@ -10,6 +10,7 @@ Route::get('/survey', [SurveyController::class, 'index']);
 Route::post('/survey', [SurveyController::class, 'store']);
 Route::get('/responses/{token}', [ResponseController::class, 'show'])->name('responses.show');
 Route::post('/admin/login', [AdminController::class, 'login']);
+Route::post('/admin/register', [AdminController::class, 'register']);
 
 // Protected routes
 Route::middleware('auth:sanctum')->group(function () {
