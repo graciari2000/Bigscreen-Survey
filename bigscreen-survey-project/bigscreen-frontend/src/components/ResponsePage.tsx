@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import "./../App.css";
+import "./../styles/ResponsePage.css";
 
 interface Question {
     id: number;
@@ -89,109 +90,48 @@ export function ResponsePage() {
     }
 
     return (
-        <div
-            className="w-[375px] mx-auto border relative overflow-hidden min-h-screen"
-            style={{
-                backgroundColor: 'var(--background)',
-                borderColor: 'var(--secondary)'
-            }}
-        >
-            {/* Header */}
-            <div className="px-6 py-4 flex justify-between items-center">
-                <a
-                    href="/"
-                    className="font-medium text-sm hover:underline"
-                    style={{ color: 'var(--primary)' }}
-                >
-                    Take Another Survey
-                </a>
-            </div>
-
+        <div className="response-page-container">
+        
             {/* Content */}
-            <div className="px-6 pt-8 pb-12">
-                {/* Logo */}
-                <div className="text-center mb-12">
-                    <h1
-                        className="font-bold text-2xl font-sans tracking-tight"
-                        style={{ color: 'var(--text)' }}
-                    >
-                        bigscreen
-                    </h1>
-                </div>
-
+            <div className="response-content">
                 {/* Title */}
-                <div className="mb-8">
-                    <h2
-                        className="font-bold text-[30px] leading-tight text-center"
-                        style={{ color: 'var(--text)' }}
-                    >
-                        Your Survey Responses
-                    </h2>
-                    {user && (
-                        <p className="text-center text-sm mt-2" style={{ color: 'var(--text)' }}>
-                            Thank you for completing the survey!
-                        </p>
-                    )}
+                <div className="response-title">
+                    <h2>Survey Responses</h2>
                 </div>
 
                 {/* Responses */}
-                <div className="space-y-6">
+                <div className="response-list">
                     {user && (
-                        <div className="text-center mb-8">
-                            <p
-                                className="text-sm font-medium"
-                                style={{ color: 'var(--text)' }}
-                            >
+                        <div className="response-user-info">
+                            <p className="response-user-email">
                                 Email: {user.email}
                             </p>
-                            <p
-                                className="text-xs mt-1"
-                                style={{ color: 'var(--secondary)' }}
-                            >
+                            <p className="response-date">
                                 Submitted on: {new Date(user.created_at).toLocaleDateString()}
                             </p>
                         </div>
                     )}
 
                     {questions.map(question => (
-                        <div key={question.id} className="mb-6 p-4 border rounded-lg" style={{
-                            borderColor: 'var(--secondary)',
-                            backgroundColor: 'var(--background)'
-                        }}>
-                            <p
-                                className="font-medium mb-2 text-sm"
-                                style={{ color: 'var(--text)' }}
-                            >
+                        <div key={question.id} className="response-item">
+                            <p className="response-question">
                                 {question.number}. {question.body}
                             </p>
-                            <div
-                                className="text-sm p-2 rounded mt-2"
-                                style={{
-                                    backgroundColor: 'var(--secondary)',
-                                    color: 'var(--background)'
-                                }}
-                            >
+                            <div className="response-answer">
                                 <strong>Answer:</strong> {question.responses[0]?.answer || 'No answer provided'}
                             </div>
 
                             {/* Show options for multiple choice questions */}
                             {question.type === 'A' && question.options && (
-                                <div className="mt-3">
-                                    <p className="text-xs font-medium mb-1" style={{ color: 'var(--text)' }}>
+                                <div className="response-options">
+                                    <p className="response-options-label">
                                         Available options:
                                     </p>
-                                    <div className="flex flex-wrap gap-1">
+                                    <div className="response-options-list">
                                         {question.options.map((option, index) => (
                                             <span
                                                 key={index}
-                                                className="text-xs px-2 py-1 rounded"
-                                                style={{
-                                                    backgroundColor: question.responses[0]?.answer === option
-                                                        ? 'var(--primary)'
-                                                        : 'var(--secondary)',
-                                                    color: 'var(--background)',
-                                                    opacity: question.responses[0]?.answer === option ? 1 : 0.6
-                                                }}
+                                                className={`response-option ${question.responses[0]?.answer === option ? 'selected' : ''}`}
                                             >
                                                 {option}
                                             </span>
@@ -204,20 +144,10 @@ export function ResponsePage() {
                 </div>
 
                 {/* Footer */}
-                <div className="text-center mt-12">
-                    <p className="text-xs" style={{ color: 'var(--secondary)' }}>
-                        Your response token: {token}
+                <div className="response-footer">
+                    <p className="response-token">
+                        response token: {token}
                     </p>
-                    <a
-                        href="/"
-                        className="inline-block mt-4 px-6 py-2 rounded-lg text-sm font-medium"
-                        style={{
-                            backgroundColor: 'var(--primary)',
-                            color: 'var(--background)'
-                        }}
-                    >
-                        Take Another Survey
-                    </a>
                 </div>
             </div>
         </div>

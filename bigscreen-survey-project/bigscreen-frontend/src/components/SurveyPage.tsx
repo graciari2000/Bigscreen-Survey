@@ -12,6 +12,24 @@ interface Question {
 }
 
 export function SurveyPage() {
+
+
+        // Add inside the component function
+        useEffect(() => {
+            // Hide navbar when component mounts
+            const navbar = document.querySelector('.navbar');
+            if (navbar) {
+                navbar.style.display = 'none';
+            }
+    
+            // Cleanup: Show navbar when component unmounts
+            return () => {
+                if (navbar) {
+                    navbar.style.display = 'flex';
+                }
+            };
+        }, []);
+
     const [questions, setQuestions] = useState<Question[]>([]);
     const [responses, setResponses] = useState<Record<string, { answer: string }>>({});
     const [email, setEmail] = useState('');
@@ -93,10 +111,11 @@ export function SurveyPage() {
             const data = await response.json();
             console.log('Submission successful:', data);
 
+            // In the handleSubmit function of SurveyPage.tsx, modify the navigation:
             if (data.response_url) {
-                navigate(`/responses/${data.response_url.split('/').pop()}`);
+                navigate(`/responses/${data.response_url.split('/').pop()}?success=true`);
             } else {
-                navigate('/thank-you'); // Fallback redirect
+                navigate('/thank-you');
             }
 
         } catch (error: any) {

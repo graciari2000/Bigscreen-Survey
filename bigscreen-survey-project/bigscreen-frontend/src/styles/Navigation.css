@@ -1,29 +1,54 @@
+/* Navigation.css */
 .navbar {
     text-decoration: none;
     color: inherit;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 20px;
     background-color: var(--primary);
+    height: 100vh;
+    width: 200px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1000;
 }
 
 .navbar-links {
     display: flex;
-    gap: 20px;
+    flex-direction: column;
+    gap: 25px;
+    width: 100%;
 }
 
 .theme-toggle-container {
-    margin-right: 100%;
-    margin: 15px;
-    position: absolute;
-    top: 10px;
-    right: 0;
+    margin-top: auto;
+    margin-bottom: 20px;
+    width: 100%;
 }
 
 .navbar a {
     color: var(--background);
     text-decoration: none;
     font-size: 18px;
+    padding: 10px 0;
+    width: 100%;
+    transition: all 0.3s ease;
 }
 
+.navbar a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    padding-left: 10px;
+}
+
+.logo-link {
+    font-family: "SbCarbon", sans-serif;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}

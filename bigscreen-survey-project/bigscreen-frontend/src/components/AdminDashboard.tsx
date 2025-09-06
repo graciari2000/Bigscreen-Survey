@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import "./../App.css";
+import "./../styles/AdminDashboard.css";
 import {
     Chart as ChartJS,
     ArcElement,
@@ -11,7 +12,6 @@ import {
     RadialLinearScale,
     PieController,
     LineElement,
-    ChartTypeRegistry
 } from 'chart.js';
 import { useNavigate } from 'react-router-dom';
 
@@ -252,109 +252,73 @@ export function AdminDashboard() {
         return destroyCharts;
     }, [dashboardData]);
 
-    const handleLogout = () => {
-        localStorage.removeItem('adminToken');
-        navigate('/admin/login');
-    };
+    
 
     if (isLoading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-100">
-                <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-                    <p className="mt-4 text-gray-700">Loading dashboard data...</p>
-                </div>
+            <div className="loading-container">
+                <div className="loading-spinner"></div>
+                <p>Loading dashboard data...</p>
             </div>
         );
     }
 
     if (error) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-100">
-                <div className="text-center">
-                    <p className="text-red-500 mb-4 text-lg">{error}</p>
-                    <button
-                        onClick={() => navigate('/admin/login')}
-                        className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                    >
-                        Go to Login
-                    </button>
-                </div>
+            <div className="error-container">
+                <p className="error-message">{error}</p>
+                <button
+                    onClick={() => navigate('/admin/login')}
+                    className="retry-button"
+                >
+                    Go to Login
+                </button>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-gray-100 p-6">
-            <div className="max-w-6xl mx-auto">
-                {/* Header */}
-                <div className="mb-8 flex justify-between items-center bg-white p-6 rounded-lg shadow">
-                    <div>
-                        <h1 className="text-3xl font-bold text-gray-800 mb-2">
-                            Admin Dashboard
-                        </h1>
-                        <div className="text-center">
-                            <h2 className="font-bold text-xl text-blue-600">
-                                bigscreen
-                            </h2>
-                        </div>
-                    </div>
-                    <button
-                        onClick={handleLogout}
-                        className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-                    >
-                        Logout
-                    </button>
-                </div>
+        <div className="admin-dashboard-container">
+            <div className="dashboard-grid">
 
                 {/* Dashboard Content */}
                 {dashboardData ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
                         {/* VR Headset Used */}
-                        <div className="bg-white p-6 rounded-lg shadow">
-                            <h3 className="text-lg font-semibold text-gray-800 mb-4">
-                                VR Headset Used
-                            </h3>
-                            <div className="h-64">
-                                <canvas ref={headsetCanvasRef} className="w-full h-full"></canvas>
+                        <div className="dashboard-card">
+                            <h3>VR Headset Used</h3>
+                            <div className="chart-container">
+                                <canvas ref={headsetCanvasRef}></canvas>
                             </div>
                         </div>
 
                         {/* VR Content Store */}
-                        <div className="bg-white p-6 rounded-lg shadow">
-                            <h3 className="text-lg font-semibold text-gray-800 mb-4">
-                                VR Content Store
-                            </h3>
-                            <div className="h-64">
-                                <canvas ref={storeCanvasRef} className="w-full h-full"></canvas>
+                        <div className="dashboard-card">
+                            <h3>VR Content Store</h3>
+                            <div className="chart-container">
+                                <canvas ref={storeCanvasRef}></canvas>
                             </div>
                         </div>
 
                         {/* Primary Use */}
-                        <div className="bg-white p-6 rounded-lg shadow">
-                            <h3 className="text-lg font-semibold text-gray-800 mb-4">
-                                Primary Use
-                            </h3>
-                            <div className="h-64">
-                                <canvas ref={usageCanvasRef} className="w-full h-full"></canvas>
+                        <div className="dashboard-card">
+                            <h3>Primary Use</h3>
+                            <div className="chart-container">
+                                <canvas ref={usageCanvasRef}></canvas>
                             </div>
                         </div>
 
                         {/* Quality Ratings */}
-                        <div className="bg-white p-6 rounded-lg shadow">
-                            <h3 className="text-lg font-semibold text-gray-800 mb-4">
-                                Quality Ratings
-                            </h3>
-                            <div className="h-64">
-                                <canvas ref={qualityCanvasRef} className="w-full h-full"></canvas>
+                        <div className="dashboard-card">
+                            <h3>Quality Ratings</h3>
+                            <div className="chart-container">
+                                <canvas ref={qualityCanvasRef}></canvas>
                             </div>
                         </div>
                     </div>
                 ) : (
-                    <div className="text-center py-12 bg-white rounded-lg shadow">
-                        <p className="text-lg text-gray-600">
-                            No dashboard data available
-                        </p>
+                    <div className="dashboard-card">
+                        <p>No dashboard data available</p>
                     </div>
                 )}
             </div>

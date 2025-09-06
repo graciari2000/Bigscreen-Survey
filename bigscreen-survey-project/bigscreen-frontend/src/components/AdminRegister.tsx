@@ -1,8 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import "./../App.css";
+import "./../styles/AdminRegister.css";
 
 export function AdminRegister() {
+
+    // Add inside the component function
+    useEffect(() => {
+        // Hide navbar when component mounts
+        const navbar = document.querySelector('.navbar');
+        if (navbar) {
+            navbar.style.display = 'none';
+        }
+
+        // Cleanup: Show navbar when component unmounts
+        return () => {
+            if (navbar) {
+                navbar.style.display = 'flex';
+            }
+        };
+    }, []);
+
     const [formData, setFormData] = useState({
         username: '',
         email: '',
@@ -100,132 +118,106 @@ export function AdminRegister() {
     };
 
     return (
-        <div className="">
-            <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-xl shadow-lg">
-                {/* Header */}
-                <div className="flex justify-between items-center pb-6 border-b">
-                    <Link to="/" className="font-medium text-sm text-blue-600 hover:underline">
-                        Survey
-                    </Link>
-                    <Link to="/admin/login" className="font-medium text-sm text-blue-600 hover:underline">
-                        Login
-                    </Link>
-                </div>
-
-                {/* Logo */}
-                <div className="text-center">
-                    <h1 className="font-bold text-3xl font-sans text-gray-800">bigscreen</h1>
-                </div>
+        <div className="admin-register-container">
+            <div className="admin-register-card">
+                    <div className="user-icon">
+                        <div className="user-icon-head-register"></div>
+                        <div className="user-icon-body-register"></div>
+    </div>
 
                 {/* Title */}
-                <div>
-                    <h2 className="mt-6 text-center text-2xl font-bold text-gray-900">
-                        Admin Registration
-                    </h2>
+                <div className="admin-register-title">
+                    <h2>Register as admin</h2>
                 </div>
 
                 {/* Form */}
-                <form className="mt-8 space-y-6" onSubmit={handleRegister}>
+                <form className="admin-register-form" onSubmit={handleRegister}>
                     {error && (
-                        <div className="bg-red-50 text-red-700 p-3 rounded-lg border border-red-200 flex items-center">
-                            <i className="fas fa-exclamation-circle mr-2"></i>
+                        <div className="register-error-message">
+                            <i className="fas fa-exclamation-circle"></i>
                             {error}
                         </div>
                     )}
 
-                    <div className="space-y-4">
-                        <div>
-                            <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
-                                Username
-                            </label>
-                            <input
-                                type="text"
-                                id="username"
-                                name="username"
-                                value={formData.username}
-                                onChange={handleInputChange}
-                                className="appearance-none relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                placeholder="Choose a username"
-                                required
-                                disabled={isLoading}
-                            />
-                        </div>
-
-                        <div>
-                            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                                Email
-                            </label>
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                value={formData.email}
-                                onChange={handleInputChange}
-                                className="appearance-none relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                placeholder="Enter your email"
-                                required
-                                disabled={isLoading}
-                            />
-                        </div>
-
-                        <div>
-                            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                                Password
-                            </label>
-                            <input
-                                type="password"
-                                id="password"
-                                name="password"
-                                value={formData.password}
-                                onChange={handleInputChange}
-                                className="appearance-none relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                placeholder="Create a password (min. 8 characters)"
-                                required
-                                disabled={isLoading}
-                            />
-                        </div>
-
-                        <div>
-                            <label htmlFor="password_confirmation" className="block text-sm font-medium text-gray-700 mb-1">
-                                Confirm Password
-                            </label>
-                            <input
-                                type="password"
-                                id="password_confirmation"
-                                name="password_confirmation"
-                                value={formData.password_confirmation}
-                                onChange={handleInputChange}
-                                className="appearance-none relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                placeholder="Confirm your password"
-                                required
-                                disabled={isLoading}
-                            />
-                        </div>
-                    </div>
-
-                    <div>
-                        <button
-                            type="submit"
-                            className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                    <div className="register-form-group">
+                        <label htmlFor="username">Username</label>
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            value={formData.username}
+                            onChange={handleInputChange}
+                            className="register-form-input"
+                            placeholder="Choose a username"
+                            required
                             disabled={isLoading}
-                        >
-                            {isLoading ? (
-                                <>
-                                    <i className="fas fa-spinner fa-spin mr-2"></i>
-                                    Creating Account...
-                                </>
-                            ) : (
-                                'Register'
-                            )}
-                        </button>
+                        />
                     </div>
 
-                    <div className="text-center">
-                        <p className="text-sm text-gray-600">
+                    <div className="register-form-group">
+                        <label htmlFor="email">Email</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleInputChange}
+                            className="register-form-input"
+                            placeholder="Enter your email"
+                            required
+                            disabled={isLoading}
+                        />
+                    </div>
+
+                    <div className="register-form-group">
+                        <label htmlFor="password">Password</label>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            value={formData.password}
+                            onChange={handleInputChange}
+                            className="register-form-input"
+                            placeholder="Create a password (min. 8 characters)"
+                            required
+                            disabled={isLoading}
+                        />
+                    </div>
+
+                    <div className="register-form-group">
+                        <label htmlFor="password_confirmation">Confirm Password</label>
+                        <input
+                            type="password"
+                            id="password_confirmation"
+                            name="password_confirmation"
+                            value={formData.password_confirmation}
+                            onChange={handleInputChange}
+                            className="register-form-input"
+                            placeholder="Confirm your password"
+                            required
+                            disabled={isLoading}
+                        />
+                    </div>
+
+                    <button
+                        type="submit"
+                        className="register-button"
+                        disabled={isLoading}
+                    >
+                        {isLoading ? (
+                            <>
+                                <i className="fas fa-spinner fa-spin mr-2"></i>
+                                Creating Account...
+                            </>
+                        ) : (
+                            'Register'
+                        )}
+                    </button>
+
+                    <div className="register-login-link">
+                        <p>
                             Already have an account?{' '}
-                            <Link to="/admin/login" className="font-medium text-blue-600 hover:text-blue-500">
-                                Login here
-                            </Link>
+                            <Link to="/admin/login">Login here</Link>
                         </p>
                     </div>
                 </form>

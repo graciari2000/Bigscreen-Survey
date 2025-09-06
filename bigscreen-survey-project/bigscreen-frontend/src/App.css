@@ -1,15 +1,7 @@
-:root[data-theme="light"] {
+:root {
   --text: #1a1a1a;
   --background: #fbfbfe;
-  --primary: #592c6d;
+  --primary: #5900FF;
   --secondary: #3b3b3b;
-  --accent: #592c6d;
-}
-
-:root[data-theme="dark"] {
-  --text: #e6e6e6;
-  --background: #010104;
-  --primary: #bf92d3;
-  --secondary: #c4c4c4;
-  --accent: #bf92d3;
+  --accent: #5900ff;
 }

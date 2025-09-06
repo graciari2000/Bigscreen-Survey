@@ -4,12 +4,28 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Question;
+use App\Models\Response;
 
 /**
- * Handles displaying user responses via a secure token.
+ * Handles displaying user responses.
  */
 class ResponseController extends Controller
 {
+    /**
+     * Display all responses (for admin view).
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index()
+    {
+        // Get all responses with user and question relationships
+        $responses = Response::with(['user', 'question'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json($responses);
+    }
+
     /**
      * Display user responses by response token.
      *

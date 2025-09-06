@@ -6,6 +6,8 @@ import { ResponsePage } from './components/ResponsePage.tsx';
 import { AdminLogin } from './components/AdminLogin.tsx';
 import { AdminDashboard } from './components/AdminDashboard.tsx';
 import { AdminRegister } from './components/AdminRegister.tsx';
+import {ResponsesList} from './components/ResponsesList.tsx';
+import {QuestionsList} from './components/QuestionsList.tsx';
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
               <Route path="/admin/login" element={<AdminLogin />} />
               <Route path="/admin/register" element={<AdminRegister />} />
               <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/responses" element={<ResponsesList />} />
+              <Route path="/admin/questions" element={<QuestionsList />} />
             </Routes>
           </div>
         </div>

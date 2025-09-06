@@ -17,17 +17,17 @@ const ThemeToggle = () => {
         if (isDarkMode) {
             root.style.setProperty('--background', '#010104');
             root.style.setProperty('--text', '#e6e6e6');
-            root.style.setProperty('--primary', '#bf92d3');
+            root.style.setProperty('--primary', '#5900ff');
             root.style.setProperty('--secondary', '#c4c4c4');
-            root.style.setProperty('--accent', '#bf92d3');
+            root.style.setProperty('--accent', '#5900ff');
             document.body.classList.add('dark-theme');
             document.body.classList.remove('light-theme');
         } else {
             root.style.setProperty('--background', '#fbfbfe');
             root.style.setProperty('--text', '#1a1a1a');
-            root.style.setProperty('--primary', '#592c6d');
+            root.style.setProperty('--primary', '#5900ff');
             root.style.setProperty('--secondary', '#3b3b3b');
-            root.style.setProperty('--accent', '#592c6d');
+            root.style.setProperty('--accent', '#5900ff');
             document.body.classList.add('light-theme');
             document.body.classList.remove('dark-theme');
         }

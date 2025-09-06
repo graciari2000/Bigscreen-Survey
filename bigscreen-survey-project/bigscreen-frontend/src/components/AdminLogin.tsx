@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import "./../App.css";
+import "./../styles/AdminLogin.css";
+
 
 export function AdminLogin() {
     const [username, setUsername] = useState<string>('');
@@ -8,6 +10,21 @@ export function AdminLogin() {
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        // Hide navbar when component mounts
+        const navbar = document.querySelector('.navbar');
+        if (navbar) {
+            navbar.style.display = 'none';
+        }
+
+        // Cleanup: Show navbar when component unmounts
+        return () => {
+            if (navbar) {
+                navbar.style.display = 'flex';
+            }
+        };
+    }, []);
 
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -64,96 +81,77 @@ export function AdminLogin() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-400 to-purple-600 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-xl shadow-lg">
-                {/* Header */}
-                <div className="flex justify-between items-center pb-6 border-b">
-                    <Link to="/" className="font-medium text-sm text-blue-600 hover:underline">
-                        Survey
-                    </Link>
-                    <Link to="/admin/register" className="font-medium text-sm text-blue-600 hover:underline">
-                        Register
-                    </Link>
-                </div>
+        <div className="admin-login-container">
+            {/* Background shapes */}
 
-                {/* Logo */}
-                <div className="text-center">
-                    <h1 className="font-bold text-3xl font-sans text-gray-800">bigscreen</h1>
+            <div className="admin-login-card">
+                <div className="user-icon">
+                    <div className="user-icon-head"></div>
+                    <div className="user-icon-body"></div>
                 </div>
+                
 
                 {/* Title */}
-                <div>
-                    <h2 className="mt-6 text-center text-2xl font-bold text-gray-900">
-                        Admin Login
-                    </h2>
+                <div className="admin-login-title">
+                    <h2>Login as admin</h2>
                 </div>
 
                 {/* Form */}
-                <form className="mt-8 space-y-6" onSubmit={handleLogin}>
+                <form className="admin-login-form" onSubmit={handleLogin}>
                     {error && (
-                        <div className="bg-red-50 text-red-700 p-3 rounded-lg border border-red-200 flex items-center">
-                            <i className="fas fa-exclamation-circle mr-2"></i>
+                        <div className="error-message">
+                            <i className="fas fa-exclamation-circle"></i>
                             {error}
                         </div>
                     )}
 
-                    <div className="space-y-4">
-                        <div>
-                            <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
-                                Username
-                            </label>
-                            <input
-                                type="text"
-                                id="username"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
-                                className="appearance-none relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                placeholder="Enter your username"
-                                required
-                                disabled={isLoading}
-                            />
-                        </div>
-
-                        <div>
-                            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                                Password
-                            </label>
-                            <input
-                                type="password"
-                                id="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                className="appearance-none relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                placeholder="Enter your password"
-                                required
-                                disabled={isLoading}
-                            />
-                        </div>
-                    </div>
-
-                    <div>
-                        <button
-                            type="submit"
-                            className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                    <div className="form-group">
+                        <label htmlFor="username">Username</label>
+                        <input
+                            type="text"
+                            id="username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            className="form-input"
+                            placeholder="Enter your username"
+                            required
                             disabled={isLoading}
-                        >
-                            {isLoading ? (
-                                <>
-                                    <i className="fas fa-spinner fa-spin mr-2"></i>
-                                    Logging in...
-                                </>
-                            ) : (
-                                'Login'
-                            )}
-                        </button>
+                        />
                     </div>
 
-                    <div className="text-center">
-                        <p className="text-sm text-gray-600">
+                    <div className="form-group">
+                        <label htmlFor="password">Password</label>
+                        <input
+                            type="password"
+                            id="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className="form-input"
+                            placeholder="Enter your password"
+                            required
+                            disabled={isLoading}
+                        />
+                    </div>
+
+                    <button
+                        type="submit"
+                        className="login-button"
+                        disabled={isLoading}
+                    >
+                        {isLoading ? (
+                            <>
+                                <i className="fas fa-spinner fa-spin mr-2"></i>
+                                Logging in...
+                            </>
+                        ) : (
+                            'Login'
+                        )}
+                    </button>
+
+                    <div className="register-link">
+                        <p>
                             Don't have an account?{' '}
-                            <Link to="/admin/register" className="font-medium text-blue-600 hover:text-blue-500">
-                                Register here
-                            </Link>
+                            <Link to="/admin/register">Register here</Link>
                         </p>
                     </div>
                 </form>
