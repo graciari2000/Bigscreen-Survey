@@ -17,5 +17,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/admin', [AdminController::class, 'dashboard']);
     Route::get('/admin/questions', [AdminController::class, 'questions']);
     Route::get('/admin/responses', [AdminController::class, 'responses']);
+    Route::get('/responses', [ResponseController::class, 'index']); // Add this line
     Route::post('/admin/logout', [AdminController::class, 'logout']);
 });
