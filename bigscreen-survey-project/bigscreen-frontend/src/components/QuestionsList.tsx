@@ -33,7 +33,7 @@ export function QuestionsList() {
                 return;
             }
 
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admin/questions`, {
+            const response = await fetch('http://localhost:8000/api/admin/questions', {
                 headers: {
                     'Accept': 'application/json',
                     'Authorization': `Bearer ${token}`

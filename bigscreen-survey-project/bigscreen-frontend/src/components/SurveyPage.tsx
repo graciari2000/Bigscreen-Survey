@@ -41,7 +41,7 @@ export function SurveyPage() {
                 setLoading(true);
                 setError(null);
 
-                const response = await fetch(`${process.env.REACT_APP_API_URL}/api/survey`, {
+                const response = await fetch('http://localhost:8000/api/survey', {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ export function SurveyPage() {
 
             console.log('Submitting payload:', payload);
 
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/survey`, {
+            const response = await fetch('http://localhost:8000/api/survey', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

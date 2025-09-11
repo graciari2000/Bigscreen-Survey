@@ -47,7 +47,7 @@ useEffect(() => {
 
     useEffect(() => {
         if (token) {
-            fetch(`${process.env.REACT_APP_API_URL}/api/responses/${token}`, {
+            fetch('http://localhost:8000/api/responses/${token}', {
                 headers: {
                     'Accept': 'application/json',
                 }

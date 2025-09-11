@@ -21,7 +21,7 @@
         }
     ],
     "env": {
-        "REACT_APP_API_URL": "https://your-laravel-api.vercel.app",
+        "REACT_APP_API_URL": "https://bigscreen-survey.vercel.app",
         "REACT_APP_ENV": "production"
     }
 }

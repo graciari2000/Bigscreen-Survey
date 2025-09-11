@@ -62,7 +62,7 @@ export function AdminDashboard() {
             return;
         }
 
-        fetch(`${process.env.REACT_APP_API_URL}/api/admin`, {
+        fetch('http://localhost:8000/api/admin', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
