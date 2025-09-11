@@ -23,6 +23,22 @@ interface User {
 }
 
 export function ResponsePage() {
+
+useEffect(() => {
+            // Hide navbar when component mounts
+            const navbar = document.querySelector('.navbar');
+            if (navbar) {
+                navbar.style.display = 'none';
+            }
+    
+            // Show navbar when component unmounts
+            return () => {
+                if (navbar) {
+                    navbar.style.display = 'flex';
+                }
+            };
+        }, []);
+
     const { token } = useParams<{ token: string }>();
     const [user, setUser] = useState<User | null>(null);
     const [questions, setQuestions] = useState<Question[]>([]);
@@ -31,7 +47,7 @@ export function ResponsePage() {
 
     useEffect(() => {
         if (token) {
-            fetch(`http://localhost:8000/api/responses/${token}`, {
+            fetch(`${process.env.REACT_APP_API_URL}/api/responses/${token}`, {
                 headers: {
                     'Accept': 'application/json',
                 }
@@ -141,13 +157,6 @@ export function ResponsePage() {
                             )}
                         </div>
                     ))}
-                </div>
-
-                {/* Footer */}
-                <div className="response-footer">
-                    <p className="response-token">
-                        response token: {token}
-                    </p>
                 </div>
             </div>
         </div>

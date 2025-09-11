@@ -13,8 +13,6 @@ interface Question {
 
 export function SurveyPage() {
 
-
-        // Add inside the component function
         useEffect(() => {
             // Hide navbar when component mounts
             const navbar = document.querySelector('.navbar');
@@ -22,7 +20,7 @@ export function SurveyPage() {
                 navbar.style.display = 'none';
             }
     
-            // Cleanup: Show navbar when component unmounts
+            // Show navbar when component unmounts
             return () => {
                 if (navbar) {
                     navbar.style.display = 'flex';
@@ -43,7 +41,7 @@ export function SurveyPage() {
                 setLoading(true);
                 setError(null);
 
-                const response = await fetch('http://localhost:8000/api/survey', {
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/api/survey`, {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
@@ -94,7 +92,7 @@ export function SurveyPage() {
 
             console.log('Submitting payload:', payload);
 
-            const response = await fetch('http://localhost:8000/api/survey', {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/survey`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

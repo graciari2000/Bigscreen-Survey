@@ -58,7 +58,7 @@ export function AdminRegister() {
         }
 
         try {
-            const response = await fetch('http://localhost:8000/api/admin/register', {
+            const response = await fetch('`${process.env.REACT_APP_API_URL}/api/admin/register', {
                 method: 'POST',
                 headers: {
                     'Authorization': 'Bearer YOUR_ACCESS_TOKEN',
@@ -87,7 +87,7 @@ export function AdminRegister() {
             await response.json();
 
             // Auto-login after successful registration
-            const loginResponse = await fetch('http://localhost:8000/api/admin/login', {
+            const loginResponse = await fetch('`${process.env.REACT_APP_API_URL}/api/admin/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
