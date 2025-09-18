@@ -24,20 +24,20 @@ interface User {
 
 export function ResponsePage() {
 
-useEffect(() => {
-            // Hide navbar when component mounts
-            const navbar = document.querySelector('.navbar');
+    useEffect(() => {
+        // Hide navbar when component mounts
+        const navbar = document.querySelector('.navbar');
+        if (navbar) {
+            (navbar as HTMLElement).style.display = 'none';
+        }
+
+        // Show navbar when component unmounts
+        return () => {
             if (navbar) {
-                navbar.style.display = 'none';
+                (navbar as HTMLElement).style.display = 'flex';
             }
-    
-            // Show navbar when component unmounts
-            return () => {
-                if (navbar) {
-                    navbar.style.display = 'flex';
-                }
-            };
-        }, []);
+        };
+    }, []);
 
     const { token } = useParams<{ token: string }>();
     const [user, setUser] = useState<User | null>(null);
@@ -47,7 +47,8 @@ useEffect(() => {
 
     useEffect(() => {
         if (token) {
-            fetch('http://localhost:8000/api/responses/${token}', {
+
+            fetch(`http://localhost:8000/api/responses/${token}`, {
                 headers: {
                     'Accept': 'application/json',
                 }
@@ -81,9 +82,9 @@ useEffect(() => {
 
     if (loading) {
         return (
-            <div className="w-[375px] mx-auto border p-6" style={{ backgroundColor: 'var(--background)', borderColor: 'var(--secondary)' }}>
+            <div className="response-page-container">
                 <div className="text-center">
-                    <p style={{ color: 'var(--text)' }}>Loading your responses...</p>
+                    <p>Loading your responses...</p>
                 </div>
             </div>
         );
@@ -91,12 +92,12 @@ useEffect(() => {
 
     if (error) {
         return (
-            <div className="w-[375px] mx-auto border p-6" style={{ backgroundColor: 'var(--background)', borderColor: 'var(--secondary)' }}>
+            <div className="response-page-container">
                 <div className="text-center">
-                    <p style={{ color: 'var(--text)', marginBottom: '1rem' }}>Error: {error}</p>
+                    <p className="error-message">Error: {error}</p>
                     <a
                         href="/"
-                        style={{ backgroundColor: 'var(--primary)', color: 'var(--background)', padding: '0.5rem 1rem', borderRadius: '0.25rem', display: 'inline-block' }}
+                        className="return-button"
                     >
                         Return to Survey
                     </a>
@@ -107,7 +108,6 @@ useEffect(() => {
 
     return (
         <div className="response-page-container">
-        
             {/* Content */}
             <div className="response-content">
                 {/* Title */}
